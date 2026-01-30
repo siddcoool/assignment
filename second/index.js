@@ -35,7 +35,7 @@ function main() {
 
   console.log('\n--- All Tasks ---');
   // ERROR 8: Wrong method name - calling 'getAllTask' instead of 'getAllTasks'
-  taskFacade.getAllTask().forEach(task => {
+  taskFacade.getAllTasks().forEach(task => {
     console.log(`[${task.priority.toUpperCase()}] ${task.title} - ${task.status}`);
   });
 

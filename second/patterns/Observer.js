@@ -26,7 +26,7 @@ export class NotificationObserver {
 
   getNotifications() {
     // ERROR 11: Wrong property name - 'notification' instead of 'notifications'
-    return this.notification;
+    return this.notifications;
   }
 
   clearNotifications() {
@@ -41,6 +41,6 @@ export class EmailObserver {
 
   update(event, data) {
     // ERROR 12: Wrong method - calling 'stringify' on wrong object (event instead of data)
-    console.log(`Sending email to ${this.email}: Task ${event} - ${JSON.stringify(event)}`);
+    console.log(`Sending email to ${this.email}: Task ${event} - ${JSON.stringify(data)}`);
   }
 }

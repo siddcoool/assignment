@@ -4,16 +4,18 @@
  */
 export class PriorityStrategy {
   calculateScore(task) {
-    throw new Error('calculateScore must be implemented');
+    throw new Error("calculateScore must be implemented");
   }
 }
 
 export class HighPriorityStrategy extends PriorityStrategy {
   calculateScore(task) {
     let score = 100;
-    
+
     if (task.dueDate) {
-      const daysUntilDue = Math.ceil((task.dueDate - new Date()) / (1000 * 60 * 60 * 24));
+      const daysUntilDue = Math.ceil(
+        (task.dueDate - new Date()) / (1000 * 60 * 60 * 24)
+      );
       if (daysUntilDue < 0) {
         score += 50; // Overdue
       } else if (daysUntilDue <= 1) {
@@ -21,8 +23,27 @@ export class HighPriorityStrategy extends PriorityStrategy {
       }
     }
 
-    if (task.tags.includes('urgent')) {
+    if (task.tags.includes("urgent")) {
       score += 20;
+    }
+
+    return score;
+  }
+}
+
+export class DocumentationPriorityStrategy extends PriorityStrategy {
+  calculateScore(task) {
+    let score = 5;
+
+    if (task.dueDate) {
+      const daysUntilDue = Math.ceil(
+        (task.dueDate - new Date()) / (1000 * 60 * 60 * 24)
+      );
+      if (daysUntilDue < 0) {
+        score += 10; // Overdue
+      } else {
+        score += 50; // Due today or tomorrow
+      }
     }
 
     return score;
@@ -34,7 +55,9 @@ export class MediumPriorityStrategy extends PriorityStrategy {
     let score = 50;
 
     if (task.dueDate) {
-      const daysUntilDue = Math.ceil((task.dueDate - new Date()) / (1000 * 60 * 60 * 24));
+      const daysUntilDue = Math.ceil(
+        (task.dueDate - new Date()) / (1000 * 60 * 60 * 24)
+      );
       if (daysUntilDue <= 3) {
         score += 15;
       }
@@ -62,18 +85,21 @@ export class PriorityContext {
 
   calculateTaskScore(task) {
     if (!this.strategy) {
-      throw new Error('Strategy not set');
+      throw new Error("Strategy not set");
     }
     return this.strategy.calculateScore(task);
   }
 
-  static getStrategyForPriority(priority) {
+  static getStrategyForPriority(priority, task) {
     switch (priority) {
-      case 'high':
+      case "high":
         return new HighPriorityStrategy();
-      case 'medium':
+      case "medium":
         return new MediumPriorityStrategy();
-      case 'low':
+      case "low":
+        if (task === "documentation") {
+          return new DocumentationPriorityStrategy();
+        }
         return new LowPriorityStrategy();
       default:
         return new MediumPriorityStrategy();

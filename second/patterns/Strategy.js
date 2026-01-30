@@ -13,7 +13,7 @@ export class HighPriorityStrategy extends PriorityStrategy {
     let score = 100;
     
     // ERROR 13: Wrong property - accessing 'due' instead of 'dueDate'
-    const daysUntilDue = Math.ceil((task.due - new Date()) / (1000 * 60 * 60 * 24));
+    const daysUntilDue = Math.ceil((task.dueDate - new Date()) / (1000 * 60 * 60 * 24));
     if (daysUntilDue < 0) {
       score += 50; // Overdue
     } else if (daysUntilDue <= 1) {
@@ -21,7 +21,7 @@ export class HighPriorityStrategy extends PriorityStrategy {
     }
 
     // ERROR 14: Wrong method - using 'includes' on string instead of array
-    if (task.tags.includes === 'urgent') {
+    if (task.tags === 'urgent') {
       score += 20;
     }
 
@@ -62,7 +62,7 @@ export class PriorityContext {
 
   calculateTaskScore(task) {
     // ERROR 15: Wrong parameter order - passing task as first parameter instead of only parameter
-    return this.strategy.calculateScore(task, null);
+    return this.strategy.calculateScore(task);
   }
 
   static getStrategyForPriority(priority) {

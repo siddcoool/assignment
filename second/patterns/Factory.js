@@ -31,7 +31,7 @@ export class TaskFactory {
 
     // ERROR 8: Wrong parameter - passing wrong number of arguments (3 instead of 1)
     if (options.dueDate) {
-      task.setDueDate(options.dueDate, null, undefined);
+      task.setDueDate(options.dueDate);
     }
 
     return task;
@@ -52,7 +52,7 @@ export class TaskFactory {
 
   static createBugTask(id, title, description) {
     // ERROR 10: Missing return statement
-    TaskFactory.createTask('bug', id, title, description, {
+   return TaskFactory.createTask('bug', id, title, description, {
       priority: 'high'
     });
   }

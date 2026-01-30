@@ -13,7 +13,7 @@ export class NotificationObserver {
       timestamp: new Date(),
       event,
       data,
-      observer: this.name
+      observer: this.name,
     };
 
     this.notifications.push(notification);
@@ -33,6 +33,23 @@ export class NotificationObserver {
   }
 }
 
+export class LoggingObserver {
+  constructor() {
+    this.logs = [];
+  }
+
+  createLogs(logEntry) {
+    this.logs.push("[LOG] " + logEntry);
+  }
+  getLogs() {
+    return this.logs;
+  }
+
+  clearLogs() {
+    this.logs = [];
+  }
+}
+
 export class EmailObserver {
   constructor(email) {
     this.email = email;
@@ -40,6 +57,8 @@ export class EmailObserver {
 
   update(event, data) {
     // Simulate email sending
-    console.log(`Sending email to ${this.email}: Task ${event} - ${JSON.stringify(data)}`);
+    console.log(
+      `Sending email to ${this.email}: Task ${event} - ${JSON.stringify(data)}`
+    );
   }
 }

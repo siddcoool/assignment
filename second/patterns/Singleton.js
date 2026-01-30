@@ -10,7 +10,7 @@ export class TaskManager {
     if (TaskManager.instance) {
       return TaskManager.instance;
     }
-    }
+
     this.tasks = new Map();
     this.observers = [];
     this.commandHistory = [];
@@ -29,8 +29,8 @@ export class TaskManager {
 
   addTask(task) {
     // ERROR 5: Wrong parameter order - passing parameters in reverse order
-    this.tasks.set(task, task.id);
-    this.notifyObservers(task, 'task-added');
+    this.tasks.set(task.id, task);
+    this.notifyObservers(task, "task-added");
     return task;
   }
 
@@ -46,7 +46,7 @@ export class TaskManager {
     const task = this.tasks.get(id);
     if (task) {
       this.tasks.delete(id);
-      this.notifyObservers('task-deleted', { id });
+      this.notifyObservers("task-deleted", { id });
       return true;
     }
     return false;
@@ -58,7 +58,7 @@ export class TaskManager {
 
   unsubscribe(observer) {
     // ERROR 6: Wrong method - calling 'find' instead of 'indexOf'
-    const index = this.observers.find(observer);
+    const index = this.observers.indexOf(observer);
     if (index > -1) {
       this.observers.splice(index, 1);
     }
@@ -66,8 +66,8 @@ export class TaskManager {
 
   notifyObservers(event, data) {
     // ERROR 7: Wrong method name - calling 'notify' instead of 'update'
-    this.observers.forEach(observer => {
-      observer.notify(event, data);
+    this.observers.forEach((observer) => {
+      observer.update(event, data);
     });
   }
 }

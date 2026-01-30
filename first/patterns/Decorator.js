@@ -1,4 +1,4 @@
-import { Task } from '../models/Task.js';
+import { Task } from "../models/Task.js";
 
 /**
  * Decorator Pattern
@@ -31,26 +31,52 @@ export class TaskDecorator {
   }
 
   // Proxy all other properties and methods
-  get id() { return this.task.id; }
-  get title() { return this.task.title; }
-  get description() { return this.task.description; }
-  get priority() { return this.task.priority; }
-  set priority(value) { this.task.priority = value; }
-  get status() { return this.task.status; }
-  set status(value) { this.task.status = value; }
-  get createdAt() { return this.task.createdAt; }
-  get completedAt() { return this.task.completedAt; }
-  set completedAt(value) { this.task.completedAt = value; }
-  get tags() { return this.task.tags; }
-  get dueDate() { return this.task.dueDate; }
-  set dueDate(value) { this.task.dueDate = value; }
+  get id() {
+    return this.task.id;
+  }
+  get title() {
+    return this.task.title;
+  }
+  get description() {
+    return this.task.description;
+  }
+  get priority() {
+    return this.task.priority;
+  }
+  set priority(value) {
+    this.task.priority = value;
+  }
+  get status() {
+    return this.task.status;
+  }
+  set status(value) {
+    this.task.status = value;
+  }
+  get createdAt() {
+    return this.task.createdAt;
+  }
+  get completedAt() {
+    return this.task.completedAt;
+  }
+  set completedAt(value) {
+    this.task.completedAt = value;
+  }
+  get tags() {
+    return this.task.tags;
+  }
+  get dueDate() {
+    return this.task.dueDate;
+  }
+  set dueDate(value) {
+    this.task.dueDate = value;
+  }
 }
 
 export class TaggedTaskDecorator extends TaskDecorator {
   constructor(task, tags) {
     super(task);
     this._addedTags = Array.isArray(tags) ? tags : [tags];
-    this._addedTags.forEach(tag => this.addTag(tag));
+    this._addedTags.forEach((tag) => this.addTag(tag));
   }
 
   addTag(tag) {
@@ -71,6 +97,21 @@ export class TaggedTaskDecorator extends TaskDecorator {
         this._addedTags.splice(tagIndex, 1);
       }
     }
+  }
+}
+
+export class EstimatedTimeDecorator extends TaskDecorator {
+  constructor(task, estimatedHours) {
+    super(task);
+    this._estimatedHours = estimatedHours;
+  }
+
+  getEstimatedDays() {
+    return this._estimatedHours / 8;
+  }
+
+  toJSON() {
+    return this.estimatedHours.toJSON();
   }
 }
 
@@ -100,7 +141,7 @@ export class PriorityTaskDecorator extends TaskDecorator {
   }
 
   upgradePriority() {
-    const priorities = ['low', 'medium', 'high'];
+    const priorities = ["low", "medium", "high"];
     const currentIndex = priorities.indexOf(this.priority);
     if (currentIndex < priorities.length - 1) {
       this.priority = priorities[currentIndex + 1];
@@ -108,7 +149,7 @@ export class PriorityTaskDecorator extends TaskDecorator {
   }
 
   downgradePriority() {
-    const priorities = ['low', 'medium', 'high'];
+    const priorities = ["low", "medium", "high"];
     const currentIndex = priorities.indexOf(this.priority);
     if (currentIndex > 0) {
       this.priority = priorities[currentIndex - 1];

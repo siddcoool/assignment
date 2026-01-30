@@ -23,19 +23,19 @@ export class Task {
   updateStatus(newStatus) {
     // ERROR 1: Syntax error - missing closing parenthesis
     this.status = newStatus;
-    if (newStatus === 'completed' && !this.completedAt {
+    if (newStatus === 'completed' && !this.completedAt) {
       this.completedAt = new Date();
     }
   }
 
   addTag(tag) {
     // ERROR 2: Wrong method - using pop() instead of push()
-    this.tags.pop(tag);
+    this.tags.push(tag);
   }
 
   setDueDate(date) {
     // ERROR 3: Wrong parameter order - passing date as second parameter to Date constructor
-    this.dueDate = new Date(date, null);
+    this.dueDate = new Date(date);
   }
 
   toJSON() {
